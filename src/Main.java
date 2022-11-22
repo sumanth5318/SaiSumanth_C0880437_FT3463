@@ -1,10 +1,15 @@
 import java.util.Scanner;
 
-class ArithmeticExpression{
+abstract class ArithmeticExpression{
     int Type;
     public ArithmeticExpression(int Type){
         this.Type = Type;
     }
+
+    public int getType() {
+        return Type;
+    }
+
     public int evaluate(ArithmeticExpression term){
         return 1;
     }
@@ -24,11 +29,11 @@ class Number extends ArithmeticExpression{
         return value;
     }
 }
-class Binary extends ArithmeticExpression{
+class Binary extends Number{
     ArithmeticExpression left;
     ArithmeticExpression right;
     public Binary(int Type,int value,ArithmeticExpression left,ArithmeticExpression right){
-        super(Type);
+        super(Type,value);
         this.left = left;
         this.right = right;
     }
@@ -37,7 +42,7 @@ class Binary extends ArithmeticExpression{
     public int evaluate(ArithmeticExpression term) {
         switch (term.Type){
             case 1:
-                return 2;
+                return value;
             case 2:
                 return evaluate(left)+evaluate(right) ;
             case 3:
@@ -77,9 +82,9 @@ class Main{
         int TYPE_Prod = 3;
         Binary term = new Binary(TYPE_Sum, 0,
                 new Binary(TYPE_NUMBER, 3, null, null),
-                new Binary(TYPE_Prod, 0,
-                        new Binary(1, 2, null, null),
-                        new Binary(1, 5, null, null)));
+                new Product(TYPE_Prod, 0,
+                        new Product(1, 2, null, null),
+                        new Product(1, 5, null, null)));
         System.out.println(term.evaluate(term));
     }
 }
